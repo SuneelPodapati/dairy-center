@@ -1,0 +1,10 @@
+.spinner{
+    position: fixed;
+    width: 100%;
+    min-height: 1200px;
+    padding-top: 350px;
+    background-color: #ececec;
+    z-index: 10000;
+    opacity: 0.8;
+    margin-top: -20px;
+}

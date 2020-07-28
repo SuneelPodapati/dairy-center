@@ -1,0 +1,17 @@
+.producer-sheet{
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.invalid-cell-data {
+    border: 1px solid red !important;
+}
+
+.read-only-class {
+    background-color: #f0f0f0 !important;
+}
+
+.save{
+    margin-left: 50px;
+}

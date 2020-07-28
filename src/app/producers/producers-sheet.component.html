@@ -1,0 +1,7 @@
+<div class="producer-sheet">
+    <h2>{{title}}</h2>
+    <!-- <label>Show All</label><input type="checkbox" [checked]="showAll" (change)="showAll = !showAll"> -->
+    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
+    <input type="button" (click)="addProducer()" value="Add Producer">
+    <input class="save" type="button" (click)="save()" value="Save" [hidden]="!allowSave">
+</div>

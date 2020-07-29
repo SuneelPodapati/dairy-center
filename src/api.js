@@ -25,6 +25,7 @@ app.use(function (req, res, next) {
 
 var Schema = mongo.Schema;
 
+//#region Producer
 var ProducersSchema = new Schema({
     code: { type: String },
     name: { type: String },
@@ -55,9 +56,7 @@ app.put("/api/Producer", function (req, res) {
             res.send(err);
         }
         else {
-            setTimeout(() => {
-                res.send({ data: "Record has been Updated..!!" });
-            }, 2000);
+            res.send({ data: "Record has been Updated..!!" });
         }
     });
 })
@@ -84,8 +83,74 @@ app.delete("/api/Producer/:id", function (req, res) {
         }
     });
 })
+//#endregion
 
+//#region Procurement
+var ProcurementsSchema = new Schema({
+    producerCode: { type: String },
+    date: { type: Date },
+    shift: { type: String },
+    quantity: { type: Number },
+    fat: { type: Number },
+    kgFat: { type: Number },
+    rate: { type: Number },
+    grossAmount: { type: Number },
+    incentiveRate: { type: Number },
+    incentiveAmount: { type: Number },
+    totalAmount: { type: Number },
+    sampleNumber: { type: String },
+    adjustRate: { type: Boolean },
+}, { versionKey: false });
+
+var procurement = mongo.model('procurement', ProcurementsSchema, 'Procurements');
+
+app.post("/api/Procurement", function (req, res) {
+    var mod = new procurement(req.body);
+    mod.save(function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send({ data: "Record has been Inserted..!!" });
+        }
+    });
+})
+
+app.put("/api/Procurement", function (req, res) {
+    var mod = new procurement(req.body);
+    mod.updateOne(req.body, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send({ data: "Record has been Updated..!!" });
+        }
+    });
+})
+
+app.get("/api/Procurement", function (req, res) {
+    procurement.find({ date: req.query.date, shift: req.query.shift }, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send(data.sort((a, b) => a.code - b.code));
+        }
+    });
+})
+
+app.delete("/api/Procurement/:id", function (req, res) {
+    var mod = procurement.findOneAndDelete({ "_id": req.params.id }, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send({ data: "Record has been deleted..!!" });
+        }
+    });
+})
+//#endregion
 
 app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
+    console.log('Api started on port 8080!')
 })  

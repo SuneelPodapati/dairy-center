@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { ProducersSheetComponent } from "./producers";
-import { ProducerService, SpinnerInterceptor, AppStore } from "./services";
+import { ProducerService, SpinnerInterceptor, AppStore, ProcurementService } from "./services";
+import { ProcurementsSheetComponent } from './procurement';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProducersSheetComponent
+    ProducersSheetComponent,
+    ProcurementsSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +22,7 @@ import { ProducerService, SpinnerInterceptor, AppStore } from "./services";
   ],
   providers: [
     ProducerService,
+    ProcurementService,
     AppStore,
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true }
   ],

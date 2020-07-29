@@ -1,4 +1,4 @@
-.producers-sheet{
+.procurements-sheet{
     font-size: 12px;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,6 +6,12 @@
 
 ::ng-deep .read-only-class {
     background-color: #f0f0f0 !important;
+}
+
+.date-picker{
+    font-weight: bold;
+    font-style: oblique;
+    font-size: large;
 }
 
 .save{

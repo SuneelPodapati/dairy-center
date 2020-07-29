@@ -8,3 +8,17 @@
     opacity: 0.8;
     margin-top: -20px;
 }
+
+.navbar-brand{
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+}
+
+.navbar-link{
+    text-decoration: none;
+    background-color: #cdcdcd;
+    padding: 0 5px;
+    margin-right: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+}

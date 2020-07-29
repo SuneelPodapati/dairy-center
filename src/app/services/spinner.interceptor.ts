@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from "@angular/common/http";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { AppStore } from '../services';
 
@@ -11,12 +11,12 @@ export class SpinnerInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         SpinnerInterceptor.count++;
-        this.store.http = of(true);
+        this.store.http = true;
         return next.handle(req).pipe(map((event) => {
             if (event instanceof HttpResponse) {
                 SpinnerInterceptor.count--;
                 if (SpinnerInterceptor.count <= 0) {
-                    this.store.http = of(false);
+                    this.store.http = false;
                 }
             }
             return event;

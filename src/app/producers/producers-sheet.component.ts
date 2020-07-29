@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { IProducer } from "../producers";
-import { ProducerService, AppStore } from '../services';
+import { IProducer, Producer } from "../producers";
+import { ProducerService } from '../services';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { ProducerService, AppStore } from '../services';
 })
 export class ProducersSheetComponent implements OnInit {
 
-  constructor(private service: ProducerService) { }
+  constructor(private service: ProducerService, private changeDetector: ChangeDetectorRef) { }
 
   private hotRegisterer = new HotTableRegisterer();
 
@@ -33,8 +33,10 @@ export class ProducersSheetComponent implements OnInit {
   dataChanged = () => {
     this.hot().validateCells(valid => {
       this.allowSave = valid;
+      this.changeDetector.detectChanges();
     });
   }
+  
   get producerIds() {
     return this.producers.map(x => x.code);
   }
@@ -57,8 +59,8 @@ export class ProducersSheetComponent implements OnInit {
       bankAccountNumber: '',
       bankIfscCode: ''
     },
-    startRows: 3,
     stretchH: 'all',
+    readOnlyCellClassName: 'read-only-class',
     allowInsertRow: true,
     colHeaders: true,
     afterChange: this.dataChanged,
@@ -69,6 +71,7 @@ export class ProducersSheetComponent implements OnInit {
           callback: (key, options) => {
             this.hot().validateCells(valid => {
               this.allowSave = valid;
+              this.changeDetector.detectChanges();
             });
           }
         },
@@ -76,7 +79,7 @@ export class ProducersSheetComponent implements OnInit {
           name: "Deactivate Producer",
           callback: (key, options) => {
             if (options.length > 0 && options[0].start.row <= options[0].end.row) {
-              for (let i = options[0].start.row; i <= options[0].end.row; i++){
+              for (let i = options[0].start.row; i <= options[0].end.row; i++) {
                 this.service.deactivateProducer(this.producers[i]).subscribe();
               }
             }
@@ -84,17 +87,10 @@ export class ProducersSheetComponent implements OnInit {
         }
       }
     }
-  };
+  }
 
   addProducer(): void {
-    this.producers.push({
-      code: Math.max(...this.producers.map(x => +x.code), 0) + 1 + '',
-      name: '',
-      active: true,
-      contactNumber: '',
-      bankAccountNumber: '',
-      bankIfscCode: ''
-    })
+    this.producers.push(new Producer(Math.max(...this.producers.map(x => +x.code), 0) + 1 + ''))
     this.hot().loadData(this.producers);
   }
 

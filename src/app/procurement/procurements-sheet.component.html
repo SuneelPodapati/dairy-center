@@ -1,0 +1,15 @@
+<div class="procurements-sheet">
+    <h2>{{title}} (Date:
+        <input class="date-picker" type="date" [value]="procurementDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event)">
+        ) (Shift:
+        <select class="date-picker" [value]="procurementShift" (change)="changeShift($event)">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+        </select>
+        )
+    </h2>
+    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
+    <input type="button" (click)="addProcurement()" value="Add Procurement">
+    <input class="save" type="button" (click)="save()" value="Save" [hidden]="!allowSave">
+</div>

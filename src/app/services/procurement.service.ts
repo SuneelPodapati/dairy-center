@@ -9,8 +9,8 @@ export class ProcurementService {
 
     private url: string = 'http://localhost:8080/api/Procurement'
 
-    getProcurements(date: Date, shift: string): Observable<IProcurement[]> {
-        return this.http.get<IProcurement[]>(`${this.url}?date=${date.toISOString()}&shift=${shift}`);
+    getProcurements(date: Date, shift?: string): Observable<IProcurement[]> {
+        return this.http.get<IProcurement[]>(`${this.url}/${date.toISOString()}/${shift}`);
     }
 
     addProcurement(procurement: IProcurement) {

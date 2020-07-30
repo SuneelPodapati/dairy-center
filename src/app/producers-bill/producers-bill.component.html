@@ -1,0 +1,31 @@
+<div class="producers-bill">
+    <h2 class="noPrint">{{title}} (Start Date:
+        <input class="control" type="date" [value]="billStartDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event, 'billStartDate')">
+        ) to (End Date:
+        <input class="control" type="date" [value]="billEndDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event, 'billEndDate')">
+        ) <span *ngIf="false" class="control-right"> (Show Aggregates:
+            <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
+            )</span>
+    </h2>
+    <h2 class="print">{{title}} {{billStartDate | date:'dd-MM-yyyy'}} to {{billEndDate | date:'dd-MM-yyyy'}}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let header of headers">
+                    {{header}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producer of producers">
+                <td>{{producer.code}}</td>
+                <td>{{producer.name}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

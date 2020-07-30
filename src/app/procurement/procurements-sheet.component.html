@@ -1,15 +1,17 @@
 <div class="procurements-sheet">
-    <h2>{{title}} (Date:
-        <input class="date-picker" type="date" [value]="procurementDate | date:'yyyy-MM-dd'"
-            (change)="changeDate($event)">
+    <h2 class="noPrint">{{title}} (Date:
+        <input class="control" type="date" [value]="procurementDate | date:'yyyy-MM-dd'" (change)="changeDate($event)">
         ) (Shift:
-        <select class="date-picker" [value]="procurementShift" (change)="changeShift($event)">
+        <select class="control" [value]="procurementShift" (change)="changeShift($event)">
             <option value="AM">AM</option>
             <option value="PM">PM</option>
         </select>
-        )
+        ) <span class="control-right"> (Show Aggregates:
+            <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
+            )</span>
     </h2>
+    <h2 class="print">{{title}} (Date: {{procurementDate | date:'dd-MM-yyyy'}}) (Shift: {{procurementShift}}) </h2>
     <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
-    <input type="button" (click)="addProcurement()" value="Add Procurement">
-    <input class="save" type="button" (click)="save()" value="Save" [hidden]="!allowSave">
+    <input type="button" class="noPrint" (click)="addProcurement()" value="Add Procurement">
+    <input class="save noPrint" type="button" (click)="save()" value="Save" [hidden]="!allowSave || showTotal">
 </div>

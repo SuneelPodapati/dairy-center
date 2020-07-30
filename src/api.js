@@ -94,6 +94,7 @@ var ProcurementsSchema = new Schema({
     fat: { type: Number },
     kgFat: { type: Number },
     rate: { type: Number },
+    premiumRate: { type: Number },
     grossAmount: { type: Number },
     incentiveRate: { type: Number },
     incentiveAmount: { type: Number },
@@ -128,8 +129,15 @@ app.put("/api/Procurement", function (req, res) {
     });
 })
 
-app.get("/api/Procurement", function (req, res) {
-    procurement.find({ date: req.query.date, shift: req.query.shift }, function (err, data) {
+app.get("/api/Procurement/:date?/:shift?", function (req, res) {
+    let query = {};
+    if (req.params.date) {
+        query = { ...query, date: req.params.date };
+    }
+    if (req.params.shift) {
+        query = { ...query, shift: req.params.shift };
+    }
+    procurement.find(query, function (err, data) {
         if (err) {
             res.send(err);
         }

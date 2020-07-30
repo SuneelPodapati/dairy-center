@@ -9,5 +9,7 @@ import { AppStore } from './services';
 export class AppComponent {
 
   constructor(public store: AppStore) { }
-  title = 'dairy-center';
+  title = 'Sri Satya Sai Milk Line, Puretipalli';
+  subtitle = 'Milk Collection center, Puretipalli';
+  code = 'SSSMCC - 377';
 }

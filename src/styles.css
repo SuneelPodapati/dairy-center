@@ -1,2 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~handsontable/dist/handsontable.full.css';
+
+.print{
+    display: none;
+}
+
+@media print {
+    .noPrint {
+        display:none;
+    }
+
+    .print{
+        display: inline;
+    }
+}

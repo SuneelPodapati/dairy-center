@@ -1,0 +1,1 @@
+export * from './producers-bill.component'

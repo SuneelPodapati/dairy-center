@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { ProducersSheetComponent } from "./producers";
 import { ProducerService, SpinnerInterceptor, AppStore, ProcurementService } from "./services";
 import { ProcurementsSheetComponent } from './procurement';
+import { ProducersBillComponent } from "./producers-bill";
 
 @NgModule({
   declarations: [
     AppComponent,
     ProducersSheetComponent,
-    ProcurementsSheetComponent
+    ProcurementsSheetComponent,
+    ProducersBillComponent
   ],
   imports: [
     BrowserModule,

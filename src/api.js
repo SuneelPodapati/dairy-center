@@ -157,6 +157,22 @@ app.delete("/api/Procurement/:id", function (req, res) {
         }
     });
 })
+
+app.get("/api/Procurement/Bill/:fromDate/:toDate/:producerCode?", function (req, res) {
+    let query = { date: { $gte: req.params.fromDate, $lte:  req.params.toDate } };
+    if(req.params.producerCode){
+        query = { ...query, producerCode: req.params.producerCode };
+    }
+    procurement.find(query, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send(data.sort((a, b) => a.date - b.date));
+        }
+    });
+})
+
 //#endregion
 
 app.listen(8080, function () {

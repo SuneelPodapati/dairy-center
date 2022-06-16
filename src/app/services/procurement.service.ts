@@ -24,4 +24,8 @@ export class ProcurementService {
     deleteProcurement(procurement: IProcurement) {
         return this.http.delete(`${this.url}/${procurement._id}`);
     }
+
+    getBillProcurements(fromDate: Date, toDate: Date, producerCode?: string): Observable<IProcurement[]> {
+        return this.http.get<IProcurement[]>(`${this.url}/Bill/${fromDate.toISOString()}/${toDate.toISOString()}${(producerCode ? '/' + producerCode : '')}`);
+    }
 }

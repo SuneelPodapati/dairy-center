@@ -17,7 +17,7 @@ export class ProcurementsSheetComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private router: Router) {
         let now = new Date();
-        this.procurementDate = new Date(now.toISOString().substr(0, 10));
+        this.procurementDate = new Date(now.toISOString().substring(0, 10));
     }
 
     private hotRegisterer = new HotTableRegisterer();
@@ -26,10 +26,7 @@ export class ProcurementsSheetComponent implements OnInit {
         this.producerService.getProducers().subscribe(resp => {
             this.producerIds = resp.map(x => x.code);
             if (this.producerIds.length > 0) {
-                this.service.getProcurements(this.procurementDate, this.procurementShift).subscribe(resp => {
-                    this.procurements = resp;
-                    this.hotData(this.procurements);
-                })
+                this.updateData();
             }
             else {
                 window.alert('Please add Producers first!!')
@@ -42,7 +39,7 @@ export class ProcurementsSheetComponent implements OnInit {
     hotId = 'procurements-sheet';
     allowSave: boolean = false;
     procurements: IProcurement[] = [];
-    procurementDate: Date;
+    procurementDate: Date = new Date();
     procurementShift: string = 'AM';
     showTotal: boolean = false;
     rate: number = 590;
@@ -57,6 +54,7 @@ export class ProcurementsSheetComponent implements OnInit {
         }
         return this.hot().getSourceData() as IProcurement[];
     }
+    
     dataChanged = (changes, source) => {
         changes = changes || [];
         changes.forEach(([row, prop, oldValue, newValue]) => {
@@ -183,18 +181,21 @@ export class ProcurementsSheetComponent implements OnInit {
         let date = event.target['valueAsDate'];
         if (date && date instanceof Date) {
             this.procurementDate = date;
-            this.service.getProcurements(this.procurementDate, this.procurementShift).subscribe(resp => {
-                this.procurements = resp;
-                this.hotData(this.procurements);
-            })
+            this.updateData();
         }
     }
 
     changeShift(event: Event): void {
         this.procurementShift = event.target['value'];
+        this.updateData();
+    }
+
+    updateData(){
         this.service.getProcurements(this.procurementDate, this.procurementShift).subscribe(resp => {
             this.procurements = resp;
             this.hotData(this.procurements);
+            this.showTotal = false;
+            this.hot().updateSettings({ ...this.hot().getSettings(), readOnly: false, contextMenu: this.contextMenuSettings });
         })
     }
 

@@ -45,7 +45,7 @@ export class ProducersSheetComponent implements OnInit {
     licenseKey: 'non-commercial-and-evaluation',
     columns: [
       { title: 'Producer Code', data: 'code', validator: (value, cb) => cb(value > 0 && this.producerIds.filter(x => x == value).length <= 1) },
-      { title: 'Name', data: 'name', validator: /^[a-zA-Z0-9\s,-]{3,}/ },
+      { title: 'Name', data: 'name', validator: /^[a-zA-Z0-9.\s,-]{3,}/ },
       { title: 'Contact No.', data: 'contactNumber', validator: /^$|^\d{10}$/ },
       { title: 'Bank Account No.', data: 'bankAccountNumber', validator: /^$|^[0-9]{5,20}$/ },
       { title: 'Bank IFSC Code', data: 'bankIfscCode', validator: /^$|^[A-Za-z]{4}\d{7}$/ },

@@ -1,0 +1,66 @@
+<div class="sheet">
+    <h2 class="no-print">{{title}} (Start Date:
+        <input class="control" type="date" [value]="billStartDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event, 'billStartDate')">
+        ) to (End Date:
+        <input class="control" type="date" [value]="billEndDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event, 'billEndDate')">
+        ) <span *ngIf="false" class="right"> (Show Aggregates:
+            <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
+            )</span>
+            <span class="right"> (Show Aggregates:
+                <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
+                )</span>
+    </h2>
+    <div class="center">
+        <h2 class="print">
+            {{title}} {{billStartDate | date:'dd.MM.yyyy'}} To {{billEndDate | date:'dd.MM.yyyy'}}
+        </h2>
+    </div>
+    <br />
+    <div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="colHeader padding-10">Producer Name:</span>
+                        <span class="no-print">
+                            <select class="control" [value]="selectedProducer?.code" (change)="changeProducer($event)">
+                                <option *ngFor="let producer of producers" [value]="producer.code">{{producer.name}}</option>
+                            </select>
+                        </span>
+                        <span class="print">{{selectedProducer?.name}}</span>
+                    </td>
+                    <td><span class="colHeader padding-10">Bank Account Number:</span>{{selectedProducer?.bankAccountNumber}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="colHeader padding-10">Producer Code:</span>
+                        <span class="no-print">
+                            <select class="control" [value]="selectedProducer?.code" (change)="changeProducer($event)">
+                                <option *ngFor="let producer of producers" [value]="producer.code">{{producer.code}}</option>
+                            </select>
+                        </span>
+                        <span class="print">{{selectedProducer?.code}}</span>
+                    </td>
+                    <td><span class="colHeader padding-10">IFSC Code:</span>{{selectedProducer?.bankIfscCode}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span class="colHeader padding-10">Contact Number:</span>{{selectedProducer?.contactNumber}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
+    <br />
+    <table>
+        <tbody>
+            <tr>
+                <td><span class="colHeader padding-10">Rate/Ltr. :</span><span>{{rate}}</span></td>
+                <td><span class="colHeader padding-10">Incentive/Ltr. :</span>{{incentiveRate}}</td>
+                <td><span class="colHeader padding-10">Total Rate/Ltr. :</span>{{totalRate}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

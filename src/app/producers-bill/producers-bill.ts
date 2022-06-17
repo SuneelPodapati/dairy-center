@@ -1,6 +1,6 @@
-export interface IProducersBill { 
+export interface IProducersBill {
     code: string;
-    name: string; 
-    quantity: number; 
+    name: string;
+    quantity: number;
     amount: number;
 }

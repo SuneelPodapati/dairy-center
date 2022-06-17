@@ -1,11 +1,14 @@
 {
   "name": "dairy-center",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Dairy Center APP",
+  "author": "Suneel Podapati",
+  "license": "ISC",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "server": "node ./src/api.js",
+    "build": "ng build --prod",
+    "server": "node ./api/server.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

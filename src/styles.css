@@ -1,43 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~handsontable/dist/handsontable.full.css';
 
-.print{
+.print {
     display: none;
 }
 
 @media print {
     .no-print {
-        display:none;
+        display: none;
     }
 
-    .print{
+    .print {
         display: inline;
     }
 }
 
-.sheet{
+.sheet {
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.control{
+.control {
     font-weight: bold;
     font-style: oblique;
     font-size: large;
 }
 
-.right{
+.right {
     float: right;
 }
 
-.save{
+.save {
     margin-left: 50px;
 }
 
-.padding-10{
+.padding-10 {
     padding: 10px;
 }
 
-.center{
+.center {
     text-align: center;
+}
+
+.indian-red {
+    color: indianred;
 }

@@ -9,6 +9,7 @@ import { ProducerService, SpinnerInterceptor, AppStore, ProcurementService } fro
 import { ProcurementsSheetComponent } from './procurement';
 import { ProducersBillComponent } from "./producers-bill";
 import { ProducerBillComponent } from "./producer-bill";
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProducerBillComponent } from "./producer-bill";
     ProcurementService,
     AppStore,
     GuardProducersSheet,
-    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
   bootstrap: [AppComponent]
 })

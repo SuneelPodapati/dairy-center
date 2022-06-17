@@ -46,7 +46,7 @@ export class ProcurementsSheetComponent implements OnInit {
     incentiveRate: number = 10;
     premiumRate: number = 0.1;
     producerIds: string[] = [];
- 
+
     hot = () => this.hotRegisterer.getInstance(this.hotId)
     hotData = (data?: IProcurement[]): IProcurement[] => {
         if (data) {
@@ -54,7 +54,7 @@ export class ProcurementsSheetComponent implements OnInit {
         }
         return this.hot().getSourceData() as IProcurement[];
     }
-    
+
     dataChanged = (changes, source) => {
         changes = changes || [];
         changes.forEach(([row, prop, oldValue, newValue]) => {
@@ -190,7 +190,7 @@ export class ProcurementsSheetComponent implements OnInit {
         this.updateData();
     }
 
-    updateData(){
+    updateData() {
         this.service.getProcurements(this.procurementDate, this.procurementShift).subscribe(resp => {
             this.procurements = resp;
             this.hotData(this.procurements);

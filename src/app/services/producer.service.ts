@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { IProducer } from '../producers';
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class ProducerService {
     constructor(private http: HttpClient) { }
 
-    private url: string = 'http://localhost:8080/api/Producer'
+    private url: string = `${environment.apiEndpoint}/api/Producer`
 
     getProducers(): Observable<IProducer[]> {
         return this.http.get<IProducer[]>(this.url);

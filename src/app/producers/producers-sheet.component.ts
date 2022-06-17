@@ -36,7 +36,7 @@ export class ProducersSheetComponent implements OnInit {
       this.changeDetector.detectChanges();
     });
   }
-  
+
   get producerIds() {
     return this.producers.map(x => x.code);
   }

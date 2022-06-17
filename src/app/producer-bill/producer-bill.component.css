@@ -1,9 +1,7 @@
-::ng-deep .colHeader{
+::ng-deep .colHeader {
     font-weight: bold;
 }
 
-::ng-deep .text-left { 
+::ng-deep .text-left {
     text-align: left;
 }
-
-

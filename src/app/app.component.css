@@ -1,4 +1,4 @@
-.spinner{
+.spinner {
     position: fixed;
     width: 100%;
     min-height: 1200px;
@@ -9,7 +9,7 @@
     margin-top: -20px;
 }
 
-.header{
+.header {
     padding: 10px;
     background-color: #cdcdcd;
     text-align: center;
@@ -19,13 +19,13 @@
     color: darkcyan;
 }
 
-.navbar{
+.navbar {
     border-radius: 5px;
     padding: 5px;
     text-align: left;
 }
 
-.navbar-link{
+.navbar-link {
     text-decoration: none;
     background-color: darkcyan;
     margin-right: 10px;
@@ -36,6 +36,6 @@
     padding: 5px;
 }
 
-.active-link{
+.active-link {
     background-color: darkturquoise;
 }

@@ -2,11 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { ProcurementService, ProducerService } from '../services';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { IProducerBill } from './producer-bill'
 import { IProducer } from "../producers";
 import { IProcurement, Procurement } from '../procurement'
 import { Router } from "@angular/router";
-import { verifyHostBindings } from "@angular/compiler";
 
 @Component({
     selector: 'producer-bill',

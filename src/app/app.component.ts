@@ -10,6 +10,4 @@ export class AppComponent {
 
   constructor(public store: AppStore) { }
   title = 'Sri Satya Sai Milk Line, Puretipalli';
-  subtitle = 'Milk Collection center, Puretipalli';
-  code = 'SSSMCC - 377';
 }

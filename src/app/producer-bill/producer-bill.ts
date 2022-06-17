@@ -1,7 +1,7 @@
 import { IProducer } from "../producers";
 import { IProcurement } from "../procurement";
 
-export interface IProducerBill { 
+export interface IProducerBill {
     producer: IProducer;
     procurements: IProcurement[];
 }

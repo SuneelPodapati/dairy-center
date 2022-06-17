@@ -8,9 +8,9 @@
         ) <span *ngIf="false" class="right"> (Show Aggregates:
             <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
             )</span>
-            <span class="right"> (Show Aggregates:
-                <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
-                )</span>
+        <span class="right"> (Show Aggregates:
+            <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
+            )</span>
     </h2>
     <div class="center">
         <h2 class="print">
@@ -26,19 +26,22 @@
                         <span class="colHeader padding-10">Producer Name:</span>
                         <span class="no-print">
                             <select class="control" [value]="selectedProducer?.code" (change)="changeProducer($event)">
-                                <option *ngFor="let producer of producers" [value]="producer.code">{{producer.name}}</option>
+                                <option *ngFor="let producer of producers" [value]="producer.code">{{producer.name}}
+                                </option>
                             </select>
                         </span>
                         <span class="print">{{selectedProducer?.name}}</span>
                     </td>
-                    <td><span class="colHeader padding-10">Bank Account Number:</span>{{selectedProducer?.bankAccountNumber}}</td>
+                    <td><span class="colHeader padding-10">Bank Account
+                            Number:</span>{{selectedProducer?.bankAccountNumber}}</td>
                 </tr>
                 <tr>
                     <td>
                         <span class="colHeader padding-10">Producer Code:</span>
                         <span class="no-print">
                             <select class="control" [value]="selectedProducer?.code" (change)="changeProducer($event)">
-                                <option *ngFor="let producer of producers" [value]="producer.code">{{producer.code}}</option>
+                                <option *ngFor="let producer of producers" [value]="producer.code">{{producer.code}}
+                                </option>
                             </select>
                         </span>
                         <span class="print">{{selectedProducer?.code}}</span>
@@ -47,7 +50,8 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><span class="colHeader padding-10">Contact Number:</span>{{selectedProducer?.contactNumber}}</td>
+                    <td><span class="colHeader padding-10">Contact Number:</span>{{selectedProducer?.contactNumber}}
+                    </td>
                 </tr>
             </tbody>
         </table>

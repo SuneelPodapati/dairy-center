@@ -3,10 +3,7 @@ import { ProcurementService, ProducerService } from '../services';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { IProducersBill } from './producers-bill'
-import { IProducer } from "../producers";
-import { IProcurement } from '../procurement'
 import { Router } from "@angular/router";
-import { verifyHostBindings } from "@angular/compiler";
 
 @Component({
     selector: 'producers-bill',
@@ -62,17 +59,17 @@ export class ProducersBillComponent implements OnInit {
     hotSettings: Handsontable.GridSettings = {
         licenseKey: 'non-commercial-and-evaluation',
         columns: [
-          { title: 'Producer Code', data: 'code', readOnly: true },
-          { title: 'Producer Name', data: 'name', readOnly: true, className : 'text-left' },
-          { title: 'Quantity (Ltrs.)', data: 'quantity', readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-          { title: 'Amount', data: 'amount', readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-          { title: 'Signature', readOnly: true }
+            { title: 'Producer Code', data: 'code', readOnly: true },
+            { title: 'Producer Name', data: 'name', readOnly: true, className: 'text-left' },
+            { title: 'Quantity (Ltrs.)', data: 'quantity', readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
+            { title: 'Amount', data: 'amount', readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
+            { title: 'Signature', readOnly: true }
         ],
         colWidths: ['150', '350', '150', '150', '200'],
         readOnlyCellClassName: 'not-dimmed',
         colHeaders: true,
         tableClassName: "center"
-      }
+    }
 
     changeDate(event: Event, control: string): void {
         let date = event.target['valueAsDate'];
@@ -82,19 +79,19 @@ export class ProducersBillComponent implements OnInit {
         }
     }
 
-    updateData(){
+    updateData() {
         this.producerService.getProducers().subscribe(producers => {
             if (producers.length > 0) {
                 this.procurementService.getBillProcurements(this.billStartDate, this.billEndDate).subscribe(procurements => {
-                    this.billData = producers.map(p =>  (
-                        { 
-                            code: p.code, 
-                            name: p.name, 
-                            quantity: procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s+c.quantity, 0), 
-                            amount: Math.round(procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s+c.totalAmount, 0)),
+                    this.billData = producers.map(p => (
+                        {
+                            code: p.code,
+                            name: p.name,
+                            quantity: procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.quantity, 0),
+                            amount: Math.round(procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.totalAmount, 0)),
                         }));
-                        this.hot().loadData(this.billData);
-                        this.showTotal = false;
+                    this.hot().loadData(this.billData);
+                    this.showTotal = false;
                 });
             }
             else {
@@ -110,9 +107,9 @@ export class ProducersBillComponent implements OnInit {
             let data = this.hotData();
             let total: IProducersBill = {
                 code: '',
-                name: 'Total', 
-                quantity: this.billData.reduce((s, c) => s+c.quantity, 0), 
-                amount: this.billData.reduce((s, c) => s+c.amount, 0),
+                name: 'Total',
+                quantity: this.billData.reduce((s, c) => s + c.quantity, 0),
+                amount: this.billData.reduce((s, c) => s + c.amount, 0),
             };
             this.hotData([...data, total]);
         }

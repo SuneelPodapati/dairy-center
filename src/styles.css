@@ -15,6 +15,14 @@
     }
 }
 
+.visible {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 .sheet {
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -24,18 +32,19 @@
     font-weight: bold;
     font-style: oblique;
     font-size: large;
+    cursor: pointer;
 }
 
 .right {
     float: right;
 }
 
-.save {
-    margin-left: 50px;
-}
-
 .padding-10 {
     padding: 10px;
+}
+
+.ml-100 {
+    margin-left: 100px;
 }
 
 .center {
@@ -44,4 +53,14 @@
 
 .indian-red {
     color: indianred;
+}
+
+.add {
+    border-color: coral;
+    border-style: double;
+}
+
+.save {
+    border-color: yellowgreen;
+    border-style: groove;
 }

@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { IProcurement } from '../procurement';
 import { environment } from "src/environments/environment";
+import Upsert from ".";
 
 @Injectable()
 export class ProcurementService {
@@ -28,5 +29,9 @@ export class ProcurementService {
 
     getBillProcurements(fromDate: Date, toDate: Date, producerCode?: string): Observable<IProcurement[]> {
         return this.http.get<IProcurement[]>(`${this.url}/Bill/${fromDate.toISOString()}/${toDate.toISOString()}${(producerCode ? '/' + producerCode : '')}`);
+    }
+    bulkUpdate(procurements: IProcurement[]): any {
+        let updateInserts = procurements.map(p => new Upsert<IProcurement>(p._id, p));
+        return this.http.post<any>(`${this.url}/bulk`, updateInserts);
     }
 }

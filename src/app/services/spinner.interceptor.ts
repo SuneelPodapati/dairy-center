@@ -11,12 +11,12 @@ export class SpinnerInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         SpinnerInterceptor.count++;
-        this.store.http = true;
+        this.store.spinner = true;
         return next.handle(req).pipe(map((event) => {
             if (event instanceof HttpResponse) {
                 SpinnerInterceptor.count--;
                 if (SpinnerInterceptor.count <= 0) {
-                    this.store.http = false;
+                    this.store.spinner = false;
                 }
             }
             return event;

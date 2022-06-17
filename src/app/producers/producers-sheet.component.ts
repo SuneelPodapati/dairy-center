@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { IProducer, Producer } from "../producers";
-import { ProducerService } from '../services';
+import { ProducerService, AppStore } from '../services';
 
 
 @Component({
@@ -12,15 +12,26 @@ import { ProducerService } from '../services';
 })
 export class ProducersSheetComponent implements OnInit {
 
-  constructor(private service: ProducerService, private changeDetector: ChangeDetectorRef) { }
+  constructor(private service: ProducerService, private changeDetector: ChangeDetectorRef, private store: AppStore) { }
 
   private hotRegisterer = new HotTableRegisterer();
 
   ngOnInit(): void {
-    this.service.getProducers().subscribe(resp => {
-      this.producers = resp.filter(x => this.showAll || x.active);
-      this.hot().loadData(this.producers);
-    })
+    setTimeout(() => {  // give breathing time for the component
+      let unSavedData = this.store.load<IProducer[]>(this.dataKey);
+      if (unSavedData && unSavedData.length > 0 && confirm('You have UNSAVED producers data, RESTORE it?')) {
+        this.producers = unSavedData;
+        this.store.spinner = true;
+        setTimeout(() => {
+          this.hotData(this.producers);
+          this.store.spinner = false;
+        }, 1000);
+      }
+      else {
+        this.clearLocalData();
+        this.updateData();
+      }
+    }, 500);
   }
 
   title: string = 'Producers Sheet';
@@ -30,7 +41,16 @@ export class ProducersSheetComponent implements OnInit {
   showAll: boolean = false;
 
   hot = () => this.hotRegisterer.getInstance(this.hotId)
-  dataChanged = () => {
+  hotData = (data?: IProducer[]): IProducer[] => {
+    if (data) {
+      this.hot().loadData(data);
+    }
+    return this.hot().getSourceData() as IProducer[];
+  }
+  dataChanged = (changes: Handsontable.CellChange[], source: Handsontable.ChangeSource) => {
+    if (source != 'loadData') {
+      this.setLocalData();
+    }
     this.hot().validateCells(valid => {
       this.allowSave = valid;
       this.changeDetector.detectChanges();
@@ -89,22 +109,38 @@ export class ProducersSheetComponent implements OnInit {
     }
   }
 
+  updateData() {
+    this.service.getProducers().subscribe(resp => {
+      this.producers = resp.filter(x => this.showAll || x.active);
+      this.hotData(this.producers);
+    })
+  }
+
   addProducer(): void {
     this.producers.push(new Producer(Math.max(...this.producers.map(x => +x.code), 0) + 1 + ''))
-    this.hot().loadData(this.producers);
+    this.hotData(this.producers);
   }
 
   save(): void {
     if (this.allowSave) {
       let data = this.hot().getSourceData() as IProducer[];
-      data.forEach(p => {
-        if (p._id) {
-          this.service.updateProducer(p).subscribe();
-        }
-        else {
-          this.service.addProducer(p).subscribe();
-        }
+      this.service.bulkUpdate(data).subscribe(resp => {
+        this.clearLocalData();
+        this.allowSave = false;
+        this.updateData();
       })
     }
+  }
+
+  clearLocalData(): void {
+    this.store.store([], this.dataKey);
+  }
+
+  setLocalData(): void {
+    this.store.store(this.hotData(), this.dataKey);
+  }
+
+  get dataKey(): string {
+    return this.hotId;
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { IProcurement, Procurement } from "../procurement";
-import { ProcurementService, ProducerService } from '../services';
+import { AppStore, ProcurementService, ProducerService } from '../services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class ProcurementsSheetComponent implements OnInit {
     constructor(private service: ProcurementService,
         private producerService: ProducerService,
         private changeDetector: ChangeDetectorRef,
-        private router: Router) {
+        private router: Router, private store: AppStore) {
         let now = new Date();
         this.procurementDate = new Date(now.toISOString().substring(0, 10));
     }
@@ -26,7 +26,24 @@ export class ProcurementsSheetComponent implements OnInit {
         this.producerService.getProducers().subscribe(resp => {
             this.producerIds = resp.map(x => x.code);
             if (this.producerIds.length > 0) {
-                this.updateData();
+                let unSavedData = this.store.load<IProcurement[]>(this.dataKey);
+                if (unSavedData && unSavedData.length > 0
+                    && confirm(`You have UNSAVED data for ${new Date(unSavedData[0].date).toLocaleDateString()}, ${unSavedData[0].shift} shift, RESTORE it?`)) {
+                    this.procurements = unSavedData;
+                    this.store.spinner = true;
+                    this.procurementDate = new Date(unSavedData[0].date);
+                    this.procurementShift = unSavedData[0].shift;
+                    setTimeout(() => {
+                        this.hotData(this.procurements);
+                        this.store.spinner = false;
+                        this.savedChanges = false;
+                    }, 1000);
+                }
+                else {
+                    this.clearLocalData();
+                    this.savedChanges = true;
+                    this.updateData();
+                }
             }
             else {
                 window.alert('Please add Producers first!!')
@@ -38,12 +55,13 @@ export class ProcurementsSheetComponent implements OnInit {
     title: string = 'Procurements Sheet';
     hotId = 'procurements-sheet';
     allowSave: boolean = false;
+    savedChanges: boolean = false;
     procurements: IProcurement[] = [];
     procurementDate: Date = new Date();
     procurementShift: string = 'AM';
     showTotal: boolean = false;
-    rate: number = 590;
-    incentiveRate: number = 10;
+    rate: number = 700;
+    incentiveRate: number = 15;
     premiumRate: number = 0.1;
     producerIds: string[] = [];
 
@@ -56,6 +74,10 @@ export class ProcurementsSheetComponent implements OnInit {
     }
 
     dataChanged = (changes, source) => {
+        if (source != 'loadData') {
+            this.setLocalData();
+            this.savedChanges = false;
+        }
         changes = changes || [];
         changes.forEach(([row, prop, oldValue, newValue]) => {
             let rowData = this.hot().getSourceDataAtRow(row) as IProcurement;
@@ -191,12 +213,14 @@ export class ProcurementsSheetComponent implements OnInit {
     }
 
     updateData() {
-        this.service.getProcurements(this.procurementDate, this.procurementShift).subscribe(resp => {
-            this.procurements = resp;
-            this.hotData(this.procurements);
-            this.showTotal = false;
-            this.hot().updateSettings({ ...this.hot().getSettings(), readOnly: false, contextMenu: this.contextMenuSettings });
-        })
+        if (this.savedChanges) {
+            this.service.getProcurements(this.procurementDate, this.procurementShift).subscribe(resp => {
+                this.procurements = resp;
+                this.hotData(this.procurements);
+                this.showTotal = false;
+                this.hot().updateSettings({ ...this.hot().getSettings(), readOnly: false, contextMenu: this.contextMenuSettings });
+            })
+        }
     }
 
     changeShowTotal(event: Event): void {
@@ -234,13 +258,11 @@ export class ProcurementsSheetComponent implements OnInit {
     save(): void {
         if (this.allowSave) {
             let data = this.hotData();
-            data.forEach(p => {
-                if (p._id) {
-                    this.service.updateProcurement(p).subscribe();
-                }
-                else {
-                    this.service.addProcurement(p).subscribe();
-                }
+            this.service.bulkUpdate(data).subscribe(resp => {
+                this.clearLocalData();
+                this.allowSave = false;
+                this.savedChanges = true;
+                this.updateData();
             })
         }
     }
@@ -258,5 +280,17 @@ export class ProcurementsSheetComponent implements OnInit {
 
     roundToDecimal(value: number, decimals: number): number {
         return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    }
+
+    clearLocalData(): void {
+        this.store.store([], this.dataKey);
+    }
+
+    setLocalData(): void {
+        this.store.store(this.hotData(), this.dataKey);
+    }
+
+    get dataKey(): string {
+        return this.hotId;
     }
 }

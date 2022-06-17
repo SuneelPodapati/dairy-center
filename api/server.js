@@ -36,11 +36,22 @@ var ProducersSchema = new Schema({
     bankIfscCode: { type: String },
 }, { versionKey: false });
 
-var producer = mongo.model('producer', ProducersSchema, 'Producers');
+const ProducerModel = mongo.model('producer', ProducersSchema, 'Producers');
 
-app.post("/api/Producer", function (req, res) {
-    var mod = new producer(req.body);
-    mod.save(function (err, data) {
+app.post("/api/producer/bulk", function (req, res) {
+    ProducerModel.bulkWrite(req.body, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send({ data: "Records has been Upserted..!!" });
+        }
+    });
+})
+
+app.post("/api/producer", function (req, res) {
+    var producerDocument = new ProducerModel(req.body);
+    producerDocument.save(function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -50,9 +61,9 @@ app.post("/api/Producer", function (req, res) {
     });
 })
 
-app.put("/api/Producer", function (req, res) {
-    var mod = new producer(req.body);
-    mod.updateOne(req.body, function (err, data) {
+app.put("/api/producer", function (req, res) {
+    var producerDocument = new ProducerModel(req.body);
+    producerDocument.updateOne(req.body, function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -62,8 +73,8 @@ app.put("/api/Producer", function (req, res) {
     });
 })
 
-app.get("/api/Producer", function (req, res) {
-    producer.find({}, function (err, data) {
+app.get("/api/producer", function (req, res) {
+    ProducerModel.find({}, function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -73,9 +84,9 @@ app.get("/api/Producer", function (req, res) {
     });
 })
 
-app.delete("/api/Producer/:id", function (req, res) {
-    var mod = producer.findById(req.params.id);
-    mod.updateOne({ active: false }, function (err, data) {
+app.delete("/api/producer/:id", function (req, res) {
+    var producerDocument = ProducerModel.findById(req.params.id);
+    producerDocument.updateOne({ active: false }, function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -104,11 +115,22 @@ var ProcurementsSchema = new Schema({
     adjustRate: { type: Boolean },
 }, { versionKey: false });
 
-var procurement = mongo.model('procurement', ProcurementsSchema, 'Procurements');
+const ProcurementModel = mongo.model('procurement', ProcurementsSchema, 'Procurements');
 
-app.post("/api/Procurement", function (req, res) {
-    var mod = new procurement(req.body);
-    mod.save(function (err, data) {
+app.post("/api/procurement/bulk", function (req, res) {
+    ProcurementModel.bulkWrite(req.body, function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send({ data: "Records has been Upserted..!!" });
+        }
+    });
+})
+
+app.post("/api/procurement", function (req, res) {
+    var procurementDocument = new ProcurementModel(req.body);
+    procurementDocument.save(function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -118,9 +140,9 @@ app.post("/api/Procurement", function (req, res) {
     });
 })
 
-app.put("/api/Procurement", function (req, res) {
-    var mod = new procurement(req.body);
-    mod.updateOne(req.body, function (err, data) {
+app.put("/api/procurement", function (req, res) {
+    var procurementDocument = new ProcurementModel(req.body);
+    procurementDocument.updateOne(req.body, function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -130,7 +152,7 @@ app.put("/api/Procurement", function (req, res) {
     });
 })
 
-app.get("/api/Procurement/:date?/:shift?", function (req, res) {
+app.get("/api/procurement/:date?/:shift?", function (req, res) {
     let query = {};
     if (req.params.date) {
         query = { ...query, date: req.params.date };
@@ -138,7 +160,7 @@ app.get("/api/Procurement/:date?/:shift?", function (req, res) {
     if (req.params.shift) {
         query = { ...query, shift: req.params.shift };
     }
-    procurement.find(query, function (err, data) {
+    ProcurementModel.find(query, function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -148,8 +170,8 @@ app.get("/api/Procurement/:date?/:shift?", function (req, res) {
     });
 })
 
-app.delete("/api/Procurement/:id", function (req, res) {
-    var mod = procurement.findOneAndDelete({ "_id": req.params.id }, function (err, data) {
+app.delete("/api/procurement/:id", function (req, res) {
+    ProcurementModel.findOneAndDelete({ "_id": req.params.id }, function (err, data) {
         if (err) {
             res.send(err);
         }
@@ -159,12 +181,12 @@ app.delete("/api/Procurement/:id", function (req, res) {
     });
 })
 
-app.get("/api/Procurement/Bill/:fromDate/:toDate/:producerCode?", function (req, res) {
+app.get("/api/procurement/bill/:fromDate/:toDate/:producerCode?", function (req, res) {
     let query = { date: { $gte: req.params.fromDate, $lte: req.params.toDate } };
     if (req.params.producerCode) {
         query = { ...query, producerCode: req.params.producerCode };
     }
-    procurement.find(query, function (err, data) {
+    ProcurementModel.find(query, function (err, data) {
         if (err) {
             res.send(err);
         }

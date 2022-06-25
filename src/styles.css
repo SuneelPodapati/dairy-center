@@ -13,6 +13,10 @@
     .print {
         display: inline;
     }
+
+    .pagebreak {
+        page-break-before: always;
+    }
 }
 
 .visible {
@@ -63,4 +67,12 @@
 .save {
     border-color: yellowgreen;
     border-style: groove;
+}
+
+.highlight {
+    font-weight: 500;
+}
+
+.editable {
+    background-color: yellowgreen !important;
 }

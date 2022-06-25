@@ -4,6 +4,7 @@ import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { IProducersBill } from './producers-bill'
 import { Router } from "@angular/router";
+import { IProducer } from "../producers/producer";
 
 @Component({
     selector: 'producers-bill',
@@ -89,6 +90,8 @@ export class ProducersBillComponent implements OnInit {
                             name: p.name,
                             quantity: procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.quantity, 0),
                             amount: Math.round(procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.totalAmount, 0)),
+                            producer: p,
+                            procurements: procurements.filter(x => x.producerCode == p.code)
                         }));
                     this.hot().loadData(this.billData);
                     this.showTotal = false;
@@ -110,6 +113,8 @@ export class ProducersBillComponent implements OnInit {
                 name: 'Total',
                 quantity: this.billData.reduce((s, c) => s + c.quantity, 0),
                 amount: this.billData.reduce((s, c) => s + c.amount, 0),
+                producer: null,
+                procurements: []
             };
             this.hotData([...data, total]);
         }

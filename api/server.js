@@ -34,6 +34,13 @@ var ProducersSchema = new Schema({
     contactNumber: { type: String },
     bankAccountNumber: { type: String },
     bankIfscCode: { type: String },
+    loanDate: { type: String },
+    loanAmount: { type: Number },
+    interestAmount: { type: Number },
+    recoveriesAmount: { type: Number },
+    otherAmount: { type: Number },
+    loan2Date: { type: String },
+    loan2Amount: { type: Number }
 }, { versionKey: false });
 
 const ProducerModel = mongo.model('producer', ProducersSchema, 'Producers');

@@ -5,9 +5,7 @@
         ) to (End Date:
         <input class="control" type="date" [value]="billEndDate | date:'yyyy-MM-dd'"
             (change)="changeDate($event, 'billEndDate')">
-        ) <span *ngIf="false" class="right"> (Show Aggregates:
-            <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
-            )</span>
+        )
         <span class="right"> (Show Aggregates:
             <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
             )</span>
@@ -23,4 +21,11 @@
     </div>
     <br />
     <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
+    <br /><br /><br /><br /><br />
+    <div *ngFor="let bill of billData">
+        <div class="pagebreak"></div>
+        <producer-bill [producer]="bill.producer" [procurements]="bill.procurements" [start-date]="billStartDate"
+            [end-date]="billEndDate" [hot-id]="('bill-'+bill.code)">
+        </producer-bill>
+    </div>
 </div>

@@ -26,17 +26,14 @@
     <div class="center padding-10 indian-red">Spinning for more than 15 seconds? Run (server.cmd) file on ur desktop
     </div>
 </div>
-<header class="header">
-    <div>
-        <h1 class="title">{{title}}</h1>
-        <div class="navbar no-print">
-            <a class="navbar-link" routerLinkActive="active-link" routerLink="/procurements">Procurements Sheet</a>
-            <a class="navbar-link" routerLinkActive="active-link" routerLink="/producer-bill">Producer Bill</a>
-            <a class="navbar-link" routerLinkActive="active-link" routerLink="/producers-bill">All Bills</a>
-            <a class="navbar-link" routerLinkActive="active-link" routerLink="/producers">Producers Sheet</a>
-        </div>
+<app-title>
+    <div class="navbar no-print">
+        <a class="navbar-link" routerLinkActive="active-link" routerLink="/procurements">Procurement Sheet</a>
+        <a class="navbar-link" routerLinkActive="active-link" routerLink="/producer-bill">Producer Bill</a>
+        <a class="navbar-link" routerLinkActive="active-link" routerLink="/producers-bill">All Bills</a>
+        <a class="navbar-link" routerLinkActive="active-link" routerLink="/producers">Producers Sheet</a>
     </div>
-</header>
+</app-title>
 <router-outlet></router-outlet>
 <footer>
 </footer>

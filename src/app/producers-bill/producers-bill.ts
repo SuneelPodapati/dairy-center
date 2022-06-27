@@ -6,6 +6,7 @@ export interface IProducersBill {
     name: string;
     quantity: number;
     amount: number;
+    selected: boolean;
     producer: IProducer;
     procurements: IProcurement[];
 }

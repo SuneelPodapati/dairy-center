@@ -9,9 +9,9 @@
             <option value="PM">PM</option>
         </select>
         )
-        <span><input class="control no-print ml-100 add" type="button" (click)="addProcurement()"
+        <span><input class="control no-print ml-50 add" type="button" (click)="addProcurement()"
                 value="Add Procurement"></span>
-        <span><input class="control no-print ml-100 save" type="button" (click)="save()" value="Save"
+        <span><input class="control no-print ml-50 save" type="button" (click)="save()" value="Save"
                 [hidden]="!allowSave || showTotal"></span>
         <span class="right"> (Show Aggregates:
             <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">

@@ -17,6 +17,53 @@
     .pagebreak {
         page-break-before: always;
     }
+
+    .hidden-print {
+        visibility: hidden;
+    }
+
+    .hidden-print+td {
+        border-left: 1px solid #CCC;
+    }
+
+    .hide-print-table-first-column thead th:first-child {
+        visibility: hidden;
+    }
+
+    .hide-print-table-first-column thead th:nth-child(2) {
+        border-left: 1px solid #CCC !important;
+    }
+}
+
+.header {
+    padding: 10px;
+    background-color: #cdcdcd;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: darkcyan;
+}
+
+.navbar {
+    border-radius: 5px;
+    padding: 5px;
+    text-align: left;
+}
+
+.navbar-link {
+    text-decoration: none;
+    background-color: darkcyan;
+    margin-right: 10px;
+    border: 3px solid darkcyan;
+    border-radius: 3px;
+    color: azure;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.active-link {
+    background-color: darkturquoise;
 }
 
 .visible {
@@ -49,6 +96,10 @@
 
 .ml-100 {
     margin-left: 100px;
+}
+
+.ml-50 {
+    margin-left: 50px;
 }
 
 .center {

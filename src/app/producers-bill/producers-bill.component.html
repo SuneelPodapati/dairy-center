@@ -12,18 +12,19 @@
     </h2>
     <div class="center">
         <h2 class="print">
-            {{mcc}}
-            <br />
             {{mccCode}}
             <br />
             {{title}} {{billStartDate | date:'dd.MM.yyyy'}} TO {{billEndDate | date:'dd.MM.yyyy'}}
         </h2>
     </div>
     <br />
-    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
+    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table><br />
+    <input class="control no-print save" type="button" (click)="getBill()" value="Get Selected Only"
+        [style.left.px]="saveButtonPositionX">
     <br /><br /><br /><br /><br />
-    <div *ngFor="let bill of billData">
+    <div *ngFor="let bill of selectedBillData">
         <div class="pagebreak"></div>
+        <app-title class="print"></app-title>
         <producer-bill [producer]="bill.producer" [procurements]="bill.procurements" [start-date]="billStartDate"
             [end-date]="billEndDate" [hot-id]="('bill-'+bill.code)">
         </producer-bill>

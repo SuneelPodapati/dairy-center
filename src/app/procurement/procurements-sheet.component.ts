@@ -104,6 +104,15 @@ export class ProcurementsSheetComponent implements OnInit {
         TD.innerHTML = date.toLocaleDateString();
         TD.style.backgroundColor = '#f0f0f0';
     }
+    moveToNextRow = (): any => {
+        let current = this.hot().getSelectedLast();
+        if (current[0] == current[2] && current[1] == current[3] && current[1] == 4) {
+            return { row: 1, col: -2 }
+        }
+        else {
+            return { row: 0, col: 1 }
+        }
+    }
 
     contextMenuSettings: Handsontable.contextMenu.Settings = {
         items: {
@@ -195,6 +204,7 @@ export class ProcurementsSheetComponent implements OnInit {
         readOnlyCellClassName: 'read-only-class',
         allowInsertRow: true,
         colHeaders: true,
+        enterMoves: this.moveToNextRow,
         afterChange: this.dataChanged,
         contextMenu: this.contextMenuSettings
     }

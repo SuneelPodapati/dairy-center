@@ -38,11 +38,28 @@ export class ProducersBillComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.updateData();
+        this.producerService.getProducers().subscribe(producers => {
+            if (producers.length > 0) {
+                this.billData = producers.map(p => (
+                    {
+                        code: p.code,
+                        name: p.name,
+                        selected: true,
+                        quantity: 0,
+                        amount: 0,
+                        producer: p,
+                        procurements: []
+                    }));
+                this.updateData();
+            }
+            else {
+                window.alert('Please add Producers first!!')
+                this.router.navigate(['producers'])
+            }
+        });
     }
 
     title: string = 'PRODUCER MILK PAYMENT FROM ';
-    mcc: string = 'MILK COLLECTION CENTER, PURETIPALLI';
     mccCode: string = 'SSSMCC - 377';
     hotId = 'producers-bill';
     hot = () => this.hotRegisterer.getInstance(this.hotId)
@@ -52,24 +69,27 @@ export class ProducersBillComponent implements OnInit {
         }
         return this.hot().getSourceData() as IProducersBill[];
     }
+
     billStartDate: Date;
     billEndDate: Date;
     showTotal: boolean = false;
     billData: IProducersBill[] = [];
+    selectedBillData: IProducersBill[] = [];
 
     hotSettings: Handsontable.GridSettings = {
         licenseKey: 'non-commercial-and-evaluation',
         columns: [
+            { title: ' ', data: 'selected', type: 'checkbox' },//, className: 'hidden-print' },
             { title: 'Producer Code', data: 'code', readOnly: true },
             { title: 'Producer Name', data: 'name', readOnly: true, className: 'text-left' },
             { title: 'Quantity (Ltrs.)', data: 'quantity', readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
             { title: 'Amount', data: 'amount', readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-            { title: 'Signature', readOnly: true }
+            { title: 'Signature', readOnly: true, className: 'reference-cell' }
         ],
-        colWidths: ['150', '350', '150', '150', '200'],
+        colWidths: ['50', '150', '350', '150', '150', '200'],
         readOnlyCellClassName: 'not-dimmed',
         colHeaders: true,
-        tableClassName: "center"
+        tableClassName: "center"// hide-print-table-first-column"
     }
 
     changeDate(event: Event, control: string): void {
@@ -81,27 +101,18 @@ export class ProducersBillComponent implements OnInit {
     }
 
     updateData() {
-        this.producerService.getProducers().subscribe(producers => {
-            if (producers.length > 0) {
-                this.procurementService.getBillProcurements(this.billStartDate, this.billEndDate).subscribe(procurements => {
-                    this.billData = producers.map(p => (
-                        {
-                            code: p.code,
-                            name: p.name,
-                            quantity: procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.quantity, 0),
-                            amount: Math.round(procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.totalAmount, 0)),
-                            producer: p,
-                            procurements: procurements.filter(x => x.producerCode == p.code)
-                        }));
-                    this.hot().loadData(this.billData);
-                    this.showTotal = false;
-                });
-            }
-            else {
-                window.alert('Please add Producers first!!')
-                this.router.navigate(['producers'])
-            }
-        })
+        this.procurementService.getBillProcurements(this.billStartDate, this.billEndDate).subscribe(procurements => {
+            this.billData = this.billData.map(p => (
+                {
+                    ...p,
+                    quantity: procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.quantity, 0),
+                    amount: Math.round(procurements.filter(x => x.producerCode == p.code).reduce((s, c) => s + c.totalAmount, 0)),
+                    procurements: procurements.filter(x => x.producerCode == p.code)
+                }));
+            this.hot().loadData(this.billData);
+            this.showTotal = false;
+            this.selectedBillData = this.billData;
+        });
     }
 
     changeShowTotal(event: Event): void {
@@ -111,6 +122,7 @@ export class ProducersBillComponent implements OnInit {
             let total: IProducersBill = {
                 code: '',
                 name: 'Total',
+                selected: false,
                 quantity: this.billData.reduce((s, c) => s + c.quantity, 0),
                 amount: this.billData.reduce((s, c) => s + c.amount, 0),
                 producer: null,
@@ -123,4 +135,25 @@ export class ProducersBillComponent implements OnInit {
         }
 
     }
+
+    getBill(): void {
+        let data = this.hotData();
+        //this.hot().updateSettings({ ...this.hotSettings, cells: this.notSelected });
+        this.selectedBillData = data.filter(x => x.selected && x.producer != null);
+    }
+
+    notSelected = (row: number, col: number): any => {
+        return col == 1 && !this.hotData()[row].selected ? { className: 'indian-red' } : {};
+    }
+
+    get saveButtonPositionX(): number {
+        let ref = document.getElementsByClassName('reference-cell')[0];
+        if (ref) {
+            let position = ref.getBoundingClientRect();
+            return position.x;
+        }
+        return 100;
+    }
+
+
 }

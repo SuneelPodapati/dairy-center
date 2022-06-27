@@ -7,7 +7,5 @@ import { AppStore } from './services';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
   constructor(public store: AppStore) { }
-  title = 'Sri Satya Sai Milk Line, Puretipalli';
 }

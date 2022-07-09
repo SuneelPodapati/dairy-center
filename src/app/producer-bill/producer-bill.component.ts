@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { ProcurementService, ProducerService } from '../services';
+import { ProcurementService, ProducerService, AppStore } from '../services';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { IProducer } from "../producers";
-import { IProcurement, Procurement } from '../procurement'
+import { IProducer, IProcurement, Procurement } from '../models';
 import { Router } from "@angular/router";
 
 @Component({
@@ -23,10 +22,13 @@ export class ProducerBillComponent implements OnInit {
 
     constructor(private procurementService: ProcurementService,
         private producerService: ProducerService,
-        private router: Router) { }
+        private router: Router,
+        private store: AppStore) { }
 
     ngOnInit(): void {
-        this.initializeDates();
+        let dates = this.store.getDates(this.startDate, this.endDate);
+        this.billStartDate = dates.startDate;
+        this.billEndDate = dates.endDate;
         if (this.producer && this.producer.code) {
             this.producers.push(this.producer);
             this.selectedProducer = this.producer;
@@ -236,26 +238,6 @@ export class ProducerBillComponent implements OnInit {
         };
         total.fat = this.totalFat;
         this.hotData([...this.selectedProducerProcurements, total]);
-    }
-
-    initializeDates(): void {
-        let now = new Date();
-        let today = now.getDate();
-        let start = '', end = '';
-        if (today <= 10) {
-            start = '01';
-            end = '10';
-        }
-        else if (today >= 11 && today <= 20) {
-            start = '11';
-            end = '20';
-        }
-        else {
-            start = '21';
-            end = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate() + '';
-        }
-        this.billStartDate = this.startDate ? new Date(this.startDate) : new Date(now.toISOString().substr(0, 8) + start);
-        this.billEndDate = this.endDate ? new Date(this.endDate) : new Date(now.toISOString().substr(0, 8) + end);
     }
 
     save(): void {

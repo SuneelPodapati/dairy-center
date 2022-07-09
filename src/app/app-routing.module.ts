@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { ProducersSheetComponent } from "./producers";
 import { ProcurementsSheetComponent } from './procurement';
-import { ProducersBillComponent } from './producers-bill';
+import { BillSummaryComponent } from './bill-summary';
 import { ProducerBillComponent } from './producer-bill';
+import { PrintAllBillsComponent } from './print-all-bills';
 import { Observable } from 'rxjs';
 
 export class GuardProducersSheet implements CanActivate {
@@ -23,12 +24,16 @@ const routes: Routes = [
     component: ProcurementsSheetComponent
   },
   {
-    path: 'producers-bill',
-    component: ProducersBillComponent
+    path: 'bill-summary',
+    component: BillSummaryComponent
   },
   {
     path: 'producer-bill',
     component: ProducerBillComponent
+  },
+  {
+    path: 'print-all-bills',
+    component: PrintAllBillsComponent
   }
 ];
 

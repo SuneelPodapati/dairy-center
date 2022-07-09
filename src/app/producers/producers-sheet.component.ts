@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { IProducer, Producer } from "../producers";
+import { IProducer, Producer } from "../models";
 import { ProducerService, AppStore } from '../services';
 
 
@@ -57,6 +57,18 @@ export class ProducersSheetComponent implements OnInit {
     });
   }
 
+  nameRenderer = (hotInstance, TD, row, col, prop, value, cellProperties) => {
+    if (this.producers.length > 0 && this.producers.length >= row) {
+      TD.innerHTML = this.producers[row].name;
+      if (!this.producers[row].active) {
+        TD.style.backgroundColor = 'cadetblue';
+      }
+      else {
+        TD.style.backgroundColor = '';
+      }
+    }
+  }
+
   get producerIds() {
     return this.producers.map(x => x.code);
   }
@@ -65,7 +77,7 @@ export class ProducersSheetComponent implements OnInit {
     licenseKey: 'non-commercial-and-evaluation',
     columns: [
       { title: 'Producer Code', data: 'code', validator: (value, cb) => cb(value > 0 && this.producerIds.filter(x => x == value).length <= 1) },
-      { title: 'Name', data: 'name', validator: /^[a-zA-Z0-9.\s,-]{3,}/ },
+      { title: 'Name', data: 'name', validator: /^[a-zA-Z0-9.\s,-]{3,}/, renderer: this.nameRenderer },
       { title: 'Contact No.', data: 'contactNumber', validator: /^$|^\d{10}$/ },
       { title: 'Bank Account No.', data: 'bankAccountNumber', validator: /^$|^[0-9]{5,20}$/ },
       { title: 'Bank IFSC Code', data: 'bankIfscCode', validator: /^$|^[A-Za-z]{4}\d{7}$/ },
@@ -95,14 +107,30 @@ export class ProducersSheetComponent implements OnInit {
             });
           }
         },
-        "deleteProducer": {
+        "deactivateProducer": {
           name: "Deactivate Producer",
           callback: (key, options) => {
-            if (options.length > 0 && options[0].start.row <= options[0].end.row) {
-              for (let i = options[0].start.row; i <= options[0].end.row; i++) {
-                this.service.deactivateProducer(this.producers[i]).subscribe();
-              }
+            if (options.length > 0 && options[0].start.row == options[0].end.row) {
+              this.hot().setDataAtRowProp(options[0].start.row, "active", false);
             }
+          },
+          hidden: () => {
+            let range = this.hot().getSelectedRangeLast();
+            let data = this.hotData();
+            return range.from.row != range.to.row || (!data[range.from.row].active);
+          }
+        },
+        "activateProducer": {
+          name: "Activate Producer",
+          callback: (key, options) => {
+            if (options.length > 0 && options[0].start.row == options[0].end.row) {
+              this.hot().setDataAtRowProp(options[0].start.row, "active", true);
+            }
+          },
+          hidden: () => {
+            let range = this.hot().getSelectedRangeLast();
+            let data = this.hotData();
+            return range.from.row != range.to.row || data[range.from.row].active;
           }
         }
       }
@@ -110,8 +138,8 @@ export class ProducersSheetComponent implements OnInit {
   }
 
   updateData() {
-    this.service.getProducers().subscribe(resp => {
-      this.producers = resp.filter(x => this.showAll || x.active);
+    this.service.getProducers('all').subscribe(resp => {
+      this.producers = resp;
       this.hotData(this.producers);
     })
   }

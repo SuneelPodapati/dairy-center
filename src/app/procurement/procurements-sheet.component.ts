@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { IProcurement, Procurement } from "../procurement";
+import { IProcurement, Procurement } from "../models";
 import { AppStore, ProcurementService, ProducerService } from '../services';
 import { Router } from '@angular/router';
 

@@ -6,7 +6,7 @@
         <input class="control" type="date" [value]="billEndDate | date:'yyyy-MM-dd'"
             (change)="changeDate($event, 'billEndDate')" [disabled]="(disableChanges? 'disabled' : '')">
         )
-        <span class="right"> (Show Aggregates:
+        <span class="right"> (Total:
             <input class="control" type="checkbox" [checked]="showTotal" [disabled]="(disableChanges? 'disabled' : '')"
                 (change)="changeShowTotal($event)">
             )</span>
@@ -22,7 +22,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <span class="highlight padding-10">Producer Name:</span>
+                        <span class="highlight p-10">Producer Name:</span>
                         <span class="no-print">
                             <select class="control" [value]="selectedProducer?.code"
                                 [disabled]="(disableChanges? 'disabled' : '')" (change)="changeProducer($event)">
@@ -32,12 +32,12 @@
                         </span>
                         <span class="print">{{selectedProducer?.name}}</span>
                     </td>
-                    <td><span class="highlight padding-10">Bank Account
+                    <td><span class="highlight p-10">Bank Account
                             Number:</span>{{selectedProducer?.bankAccountNumber}}</td>
                 </tr>
                 <tr>
                     <td>
-                        <span class="highlight padding-10">Producer Code:</span>
+                        <span class="highlight p-10">Producer Code:</span>
                         <span class="no-print">
                             <select class="control" [value]="selectedProducer?.code"
                                 [disabled]="(disableChanges? 'disabled' : '')" (change)="changeProducer($event)">
@@ -47,11 +47,11 @@
                         </span>
                         <span class="print">{{selectedProducer?.code}}</span>
                     </td>
-                    <td><span class="highlight padding-10">IFSC Code:</span>{{selectedProducer?.bankIfscCode}}</td>
+                    <td><span class="highlight p-10">IFSC Code:</span>{{selectedProducer?.bankIfscCode}}</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><span class="highlight padding-10">Contact Number:</span>{{selectedProducer?.contactNumber}}
+                    <td><span class="highlight p-10">Contact Number:</span>{{selectedProducer?.contactNumber}}
                     </td>
                 </tr>
             </tbody>

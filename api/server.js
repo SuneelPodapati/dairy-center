@@ -80,8 +80,9 @@ app.put("/api/producer", function (req, res) {
     });
 })
 
-app.get("/api/producer", function (req, res) {
-    ProducerModel.find({}, function (err, data) {
+app.get("/api/producer/:allOrActive", function (req, res) {
+    let query = req.params.allOrActive == 'all' ? {} : { active: true };
+    ProducerModel.find(query, function (err, data) {
         if (err) {
             res.send(err);
         }

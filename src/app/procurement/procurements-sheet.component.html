@@ -13,7 +13,7 @@
                 value="Add Procurement"></span>
         <span><input class="control no-print ml-50 save" type="button" (click)="save()" value="Save"
                 [hidden]="!allowSave || showTotal"></span>
-        <span class="right"> (Show Aggregates:
+        <span class="right"> (Total:
             <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
             )</span>
     </h2>

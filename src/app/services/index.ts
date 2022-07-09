@@ -1,5 +1,3 @@
-import { filter } from 'rxjs/operators';
-
 export * from './producer.service'
 export * from './procurement.service'
 export * from './spinner.interceptor'

@@ -1,0 +1,17 @@
+<div class="sheet">
+    <h2 class="no-print center header m-0">(Start Date:
+        <input class="control" type="date" [value]="billStartDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event, 'billStartDate')">
+        ) to (End Date:
+        <input class="control" type="date" [value]="billEndDate | date:'yyyy-MM-dd'"
+            (change)="changeDate($event, 'billEndDate')">
+        )
+    </h2>
+    <div *ngFor="let d of data; first as isFirst">
+        <app-title *ngIf="(!isFirst)" class="print"></app-title>
+        <producer-bill [producer]="d.producer" [procurements]="d.procurements" [start-date]="billStartDate"
+            [end-date]="billEndDate" [hot-id]="('bill-'+d.producer.code)">
+        </producer-bill>
+        <div class="pagebreak"></div>
+    </div>
+</div>

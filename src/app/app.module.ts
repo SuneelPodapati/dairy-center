@@ -8,8 +8,9 @@ import { AppTitleComponent } from './app-title.component';
 import { ProducersSheetComponent } from "./producers";
 import { ProducerService, SpinnerInterceptor, AppStore, ProcurementService } from "./services";
 import { ProcurementsSheetComponent } from './procurement';
-import { ProducersBillComponent } from "./producers-bill";
+import { BillSummaryComponent } from "./bill-summary";
 import { ProducerBillComponent } from "./producer-bill";
+import { PrintAllBillsComponent } from './print-all-bills';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
@@ -18,8 +19,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     AppTitleComponent,
     ProducersSheetComponent,
     ProcurementsSheetComponent,
-    ProducersBillComponent,
-    ProducerBillComponent
+    BillSummaryComponent,
+    ProducerBillComponent,
+    PrintAllBillsComponent
   ],
   imports: [
     BrowserModule,

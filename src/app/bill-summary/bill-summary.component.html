@@ -6,11 +6,12 @@
         <input class="control" type="date" [value]="billEndDate | date:'yyyy-MM-dd'"
             (change)="changeDate($event, 'billEndDate')">
         )
-        <span class="right"> (Show Aggregates:
+        <span><input class="control save ml-50 mt-5" type="button" (click)="print()" value="Print"></span>
+        <span class="right"> (Total:
             <input class="control" type="checkbox" [checked]="showTotal" (change)="changeShowTotal($event)">
             )</span>
     </h2>
-    <div class="center">
+    <div class="bill-summary-title center">
         <h2 class="print">
             {{mccCode}}
             <br />
@@ -18,15 +19,5 @@
         </h2>
     </div>
     <br />
-    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table><br />
-    <input class="control no-print save" type="button" (click)="getBill()" value="Get Selected Only"
-        [style.left.px]="saveButtonPositionX">
-    <br /><br /><br /><br /><br />
-    <div *ngFor="let bill of selectedBillData">
-        <div class="pagebreak"></div>
-        <app-title class="print"></app-title>
-        <producer-bill [producer]="bill.producer" [procurements]="bill.procurements" [start-date]="billStartDate"
-            [end-date]="billEndDate" [hot-id]="('bill-'+bill.code)">
-        </producer-bill>
-    </div>
+    <hot-table [settings]="hotSettings" [hotId]="hotId"></hot-table>
 </div>

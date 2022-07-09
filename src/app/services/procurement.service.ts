@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { IProcurement } from '../procurement';
+import { IProcurement } from '../models';
 import { environment } from "src/environments/environment";
 import Upsert from ".";
 

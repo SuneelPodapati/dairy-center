@@ -118,9 +118,8 @@ export class ProducerBillComponent implements OnInit {
             changes = changes || [];
             changes.forEach(([row, col, oldValue, newValue]) => {
                 if (row == 1 && col == 2 && (newValue === 0 || newValue > 0)) this.selectedProducer.loanAmount = newValue
-                else if (row == 3 && col == 2 && (newValue === 0 || newValue > 0)) this.selectedProducer.interestAmount = newValue
-                else if (row == 3 && col == 5 && (newValue === 0 || newValue > 0)) this.selectedProducer.recoveriesAmount = newValue
-                else if (row == 4 && col == 2 && (newValue === 0 || newValue > 0)) this.selectedProducer.otherAmount = newValue
+                else if (row == 2 && col == 2 && (newValue === 0 || newValue > 0)) this.selectedProducer.interestAmount = newValue
+                else if (row == 3 && col == 2 && (newValue === 0 || newValue > 0)) this.selectedProducer.otherAmount = newValue
                 else if (row == 1 && col == 0) this.selectedProducer.loanDate = newValue
                 else if (row == 1 && col == 3 && (newValue === 0 || newValue > 0)) this.selectedProducer.loan2Amount = newValue
                 else if (row == 1 && col == 4) this.selectedProducer.loan2Date = newValue
@@ -147,40 +146,44 @@ export class ProducerBillComponent implements OnInit {
             { row: 4, col: 0, readOnly: true, className: 'highlight htRight' },
             { row: 4, col: 3, readOnly: true, className: 'highlight htRight' },
             { row: 5, col: 0, readOnly: true, className: 'highlight htRight' },
+            { row: 5, col: 3, readOnly: true, className: 'highlight htRight' },
             { row: 6, col: 0, readOnly: true, className: 'highlight htRight' },
-            { row: 7, col: 0, readOnly: true, className: 'highlight htRight' },
+            { row: 6, col: 3, readOnly: true, className: 'highlight htRight' },
+            { row: 7, col: 0, readOnly: true, className: 'highlight htRight reference-cell' },
 
             { row: 0, col: 1, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
             { row: 0, col: 3, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
             { row: 0, col: 5, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-            { row: 2, col: 2, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
             { row: 2, col: 5, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-            { row: 4, col: 5, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
+            { row: 4, col: 2, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
             { row: 5, col: 2, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-            { row: 6, col: 5, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
-            { row: 7, col: 2, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
+            { row: 6, col: 2, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
+            { row: 7, col: 5, readOnly: true, type: 'numeric', numericFormat: { pattern: '0,0' } },
 
             { row: 1, col: 5, readOnly: true },
+            { row: 3, col: 3, readOnly: true },
+            { row: 4, col: 3, readOnly: true },
             { row: 5, col: 3, readOnly: true },
-            { row: 7, col: 3, readOnly: true, className: 'reference-cell' },
+            { row: 6, col: 3, readOnly: true },
 
             { row: 1, col: 2, type: 'numeric', numericFormat: { pattern: '0,0.00' }, className: 'editable' },
+            { row: 2, col: 2, type: 'numeric', numericFormat: { pattern: '0,0.00' }, className: 'editable' },
             { row: 3, col: 2, type: 'numeric', numericFormat: { pattern: '0,0.00' }, className: 'editable' },
-            { row: 3, col: 5, type: 'numeric', numericFormat: { pattern: '0,0.00' }, className: 'editable' },
-            { row: 4, col: 2, type: 'numeric', numericFormat: { pattern: '0,0.00' }, className: 'editable' },
+
+            { row: 1, col: 3, type: 'numeric', numericFormat: { pattern: '0,0.00' } },
         ],
         mergeCells: [
             { row: 2, col: 0, rowspan: 1, colspan: 2 },
             { row: 2, col: 3, rowspan: 1, colspan: 2 },
             { row: 3, col: 0, rowspan: 1, colspan: 2 },
-            { row: 3, col: 3, rowspan: 1, colspan: 2 },
+            { row: 3, col: 3, rowspan: 1, colspan: 3 },
             { row: 4, col: 0, rowspan: 1, colspan: 2 },
-            { row: 4, col: 3, rowspan: 1, colspan: 2 },
+            { row: 4, col: 3, rowspan: 1, colspan: 3 },
             { row: 5, col: 0, rowspan: 1, colspan: 2 },
             { row: 5, col: 3, rowspan: 1, colspan: 3 },
-            { row: 6, col: 0, rowspan: 1, colspan: 5 },
-            { row: 7, col: 0, rowspan: 1, colspan: 2 },
-            { row: 7, col: 3, rowspan: 1, colspan: 3 },
+            { row: 6, col: 0, rowspan: 1, colspan: 2 },
+            { row: 6, col: 3, rowspan: 1, colspan: 3 },
+            { row: 7, col: 0, rowspan: 1, colspan: 5 },
         ]
     }
     loansHotData = (data?: string[][]): string[][] => {
@@ -295,36 +298,44 @@ export class ProducerBillComponent implements OnInit {
         return [
             ['Rate/Ltr.', this.rate, 'Incentive/Ltr.', this.incentiveRate, 'Total Rate/Ltr.', this.totalRate],
             [this.selectedProducer?.loanDate || this.billStartDate.toLocaleDateString(),
-                'Loan Rs.', this.selectedProducer?.loanAmount?.toString(),
+                'Loan Amount Rs.', this.selectedProducer?.loanAmount?.toString(),
             this.selectedProducer?.loan2Amount?.toString(), this.selectedProducer?.loan2Date],
-            ['Cattle Loan Rs.', '', this.cattleLoan.toString(), 'Total Amount Rs.', '', this.totalAmount.toString()],
-            ['Interest Rs.', '', this.selectedProducer?.interestAmount?.toString(), 'Recoveries Rs.', '', this.selectedProducer?.recoveriesAmount?.toString()],
-            ['Other Rs.', '', this.selectedProducer?.otherAmount?.toString(), 'Net Payment Rs.', '', this.netPayment?.toString()],
-            ['Total Recoveries Rs.', '', this.totalRecoveries?.toString()],
-            ['Rounded Net Value Rs.', '', '', '', '', this.roundedNetValue?.toString()],
-            ['Cattle Loan Balance Rs.', '', this.cattleLoanBallance?.toString()]
-        ];
+            ['Interest Rs.', '', this.selectedProducer?.interestAmount?.toString(), 'Bill Amount Rs.', '', this.totalAmount.toString()],
+            ['Other Rs.', '', this.selectedProducer?.otherAmount?.toString()],
+            ['Rounded Bill Amount Rs.', '', this.roundedBillAmount?.toString()],
+            ['Loan Recovered Rs.', '', this.loanAmountRecovered.toString(),],
+            ['Loan Balanace Rs.', '', this.loanBalanceAmount?.toString()],
+            ['Net Payment Rs.', '', '', '', '', this.netPayment?.toString()]
+        ]
+    }
+    get roundedBillAmount(): number {
+        return Math.round(this.totalAmount);
+    }
+    get tempRecoveryAmount(): number {
+        return this.roundedBillAmount
+            - (this.selectedProducer?.interestAmount || 0)
+            - (this.selectedProducer?.otherAmount || 0);
+    }
+    get loanAmountRecovered(): number {
+        return Math.min(this.tempRecoveryAmount, this.loanAmount);
+    }
+    get loanAmount(): number {
+        return (this.selectedProducer?.loanAmount || 0) + (this.selectedProducer?.loan2Amount || 0);
+    }
+    get tempBalance(): number {
+        return this.loanAmount - this.tempRecoveryAmount;
+    }
+    get loanBalanceAmount(): number {
+        return Math.max(0, this.tempBalance);
     }
     get netPayment(): number {
-        return this.totalAmount - (this.selectedProducer?.recoveriesAmount || 0);
-    }
-    get roundedNetValue(): number {
-        return Math.round(this.netPayment);
-    }
-    get cattleLoan(): number {
-        return this.roundedNetValue - (this.selectedProducer?.interestAmount || 0);
-    }
-    get totalRecoveries(): number {
-        return this.cattleLoan + (this.selectedProducer?.interestAmount || 0) + (this.selectedProducer?.otherAmount || 0);
-    }
-    get cattleLoanBallance(): number {
-        return (this.selectedProducer?.loanAmount || 0) - this.cattleLoan;
+        return this.tempBalance < 0 ? Math.abs(Math.round(this.tempBalance)) : 0;
     }
     get saveButtonPositionX(): number {
         let ref = document.getElementsByClassName('reference-cell')[0];
         if (ref) {
             let position = ref.getBoundingClientRect();
-            return position.x + (position.width >= 200 ? position.width - 200 : 0) / 2;
+            return position.x + position.width - 200;
         }
         return 100;
     }

@@ -10,7 +10,6 @@ export interface IProducer {
     loanDate?: string;
     loanAmount?: number;
     interestAmount?: number;
-    recoveriesAmount?: number;
     otherAmount?: number;
     loan2Date?: string;
     loan2Amount?: number;
@@ -28,7 +27,6 @@ export class Producer implements IProducer {
     loanDate: string = '';
     loanAmount: number = 0;
     interestAmount: number = 0;
-    recoveriesAmount: number = 0;
     otherAmount: number = 0;
     loan2Date: string;
     loan2Amount: number;

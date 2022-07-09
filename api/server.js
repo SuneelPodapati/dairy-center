@@ -37,7 +37,6 @@ var ProducersSchema = new Schema({
     loanDate: { type: String },
     loanAmount: { type: Number },
     interestAmount: { type: Number },
-    recoveriesAmount: { type: Number },
     otherAmount: { type: Number },
     loan2Date: { type: String },
     loan2Amount: { type: Number }

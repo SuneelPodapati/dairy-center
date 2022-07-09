@@ -118,7 +118,7 @@ export class BillSummaryComponent implements OnInit {
         iframe.style.cssText = 'display: none';
         document.body.appendChild(iframe);
         const doc = iframe.contentDocument;
-        let printWidths = ['125', '300', '100', '100', '250'];
+        let printWidths = ['10%', '30%', '12%', '12%', '36%'];
         let title = document.getElementsByTagName('app-title')[0].outerHTML;
         let subTitle = document.getElementsByClassName('bill-summary-title')[0].outerHTML;
         let table = document.querySelector('.ht_master .bill-summary-table');
@@ -132,8 +132,8 @@ export class BillSummaryComponent implements OnInit {
             vertical-align: middle;
         }
         td, th {
-            height: 100px;
-            border: 1px solid #CCC;
+            height: 66px;
+            border: 1px solid black;
             border-collapse: collapse;
         }
         @media print {
@@ -164,7 +164,7 @@ export class BillSummaryComponent implements OnInit {
 
         ${printWidths.reduce((t, e, i) => t +
             `th:nth-child(${(i + 1)}), td:nth-child(${(i + 1)}) {
-                width: ${e}px !important;
+                width: ${e} !important;
             }
             `, '')
             }
